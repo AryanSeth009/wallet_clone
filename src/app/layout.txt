@@ -1,0 +1,38 @@
+"use client";
+
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Providers from "@/components/Providers";
+import NavbarWrapper from "@/components/NavbarWrapper";
+import ClientLayout from "@/components/ClientLayout";
+import ProtectedLayout from "@/components/ProtectedLayout";
+
+const inter = Inter({ subsets: ["latin"] });
+
+import { SessionProvider } from "next-auth/react";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${inter.className} bg-[#0D0E12]`}
+        suppressHydrationWarning
+      >
+        <SessionProvider>
+          <Providers>
+            <NavbarWrapper />+
+            <ClientLayout>
+              <ProtectedLayout>
+                <div className="min-h-screen">{children}</div>
+              </ProtectedLayout>
+            </ClientLayout>
+          </Providers>
+        </SessionProvider>
+      </body>
+    </html>
+  );
+}
