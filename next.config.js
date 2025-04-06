@@ -54,6 +54,10 @@ const nextConfig = {
     });
     return config;
   },
+  output: 'standalone',  // Enable standalone output
+  experimental: {
+    serverActions: true,
+  },
 }
 
 module.exports = nextConfig;

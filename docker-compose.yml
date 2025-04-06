@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      target: ${TARGET:-deps}  # Target stage to build, defaults to deps
+    command: ${COMMAND:-npm run dev}  # Command to run, defaults to development server
+    volumes:
+      - .:/app  # Mount current directory to /app in container
+      - /app/node_modules  # Don't override node_modules in container
+      - /app/.next  # Don't override .next in container
+    ports:
+      - "3000:3000"  # Map port 3000 to host
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - NEXT_TELEMETRY_DISABLED=1
+    env_file:
+      - .env.local  # Load environment variables from .env.local 
