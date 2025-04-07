@@ -9,9 +9,19 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'wallet-app'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
+        JENKINS_URL = 'http://localhost:8082'
     }
 
     stages {
+        stage('Get Crumb') {
+            steps {
+                script {
+                    def crumb = sh(script: 'curl -s -X GET "${JENKINS_URL}/crumbIssuer/api/json" -u admin:admin', returnStdout: true).trim()
+                    env.CRUMB = crumb
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 checkout scm
