@@ -15,23 +15,50 @@ try {
     $crumbResponse = Invoke-WebRequest -Uri "http://localhost:8082/crumbIssuer/api/json" -Method Get -Headers $headers
     $crumbData = $crumbResponse.Content | ConvertFrom-Json
     $crumb = $crumbData.crumb
+    $crumbRequestField = $crumbData.crumbRequestField
     Write-Host "Crumb: $crumb"
+    Write-Host "Crumb Request Field: $crumbRequestField"
 
     # Trigger the build with parameters
     Write-Host "Triggering build..."
     $buildHeaders = @{
         Authorization = "Basic $base64AuthInfo"
-        "Jenkins-Crumb" = $crumb
+        "$crumbRequestField" = $crumb
         Accept = "application/json"
         "Content-Type" = "application/x-www-form-urlencoded"
     }
-    $buildResponse = Invoke-WebRequest -Uri "http://localhost:8082/job/Wallet_Clone/build" -Method Post -Headers $buildHeaders
-    Write-Host "Build triggered successfully!"
+
+    # Create the form data
+    $formData = @{
+        "$crumbRequestField" = $crumb
+        json = '{"parameter": []}'
+    }
+
+    # First try with form data
+    try {
+        $buildResponse = Invoke-WebRequest -Uri "http://localhost:8082/job/Wallet_Clone/build" -Method Post -Headers $buildHeaders -Body $formData
+        Write-Host "Build triggered successfully!"
+    } catch {
+        Write-Host "First attempt failed, trying with delay parameter..."
+        # Try with delay parameter
+        $buildResponse = Invoke-WebRequest -Uri "http://localhost:8082/job/Wallet_Clone/build?delay=0sec" -Method Post -Headers $buildHeaders -Body $formData
+        Write-Host "Build triggered successfully with delay parameter!"
+    }
 } catch {
     Write-Host "Error: $($_.Exception.Message)"
     Write-Host "Status Code: $($_.Exception.Response.StatusCode.value__)"
     Write-Host "Status Description: $($_.Exception.Response.StatusDescription)"
-    Write-Host "Response: $($_.Exception.Response.GetResponseStream())"
+    
+    # Get the response content for more details
+    try {
+        $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+        $reader.BaseStream.Position = 0
+        $reader.DiscardBufferedData()
+        $responseBody = $reader.ReadToEnd()
+        Write-Host "Response Body: $responseBody"
+    } catch {
+        Write-Host "Could not read response body"
+    }
     
     # Additional error information
     if ($_.Exception.Response.StatusCode.value__ -eq 404) {
@@ -41,5 +68,6 @@ try {
         Write-Host "1. User permissions in Jenkins"
         Write-Host "2. CSRF protection settings"
         Write-Host "3. Job configuration"
+        Write-Host "4. Try accessing Jenkins UI and manually trigger a build to verify permissions"
     }
 } 
