@@ -1,0 +1,14 @@
+FROM jenkins/jenkins:lts-jdk17
+
+ENV JENKINS_USER admin
+ENV JENKINS_PASS admin
+
+USER root
+RUN apt-get update && apt-get install -y curl
+
+USER jenkins
+
+COPY security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy
+
+EXPOSE 8080
+EXPOSE 50000 

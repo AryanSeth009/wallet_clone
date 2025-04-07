@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    image: wallet-app:${BUILD_NUMBER}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: always
+    networks:
+      - wallet-network
+
+networks:
+  wallet-network:
+    driver: bridge 

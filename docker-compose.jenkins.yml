@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - C:/ProgramData/Jenkins/.jenkins:/var/jenkins_home
+      - //var/run/docker.sock:/var/run/docker.sock
+      - //usr/bin/docker:/usr/bin/docker
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+      - JENKINS_ADMIN_ID=admin
+      - JENKINS_ADMIN_PASSWORD=password
+    networks:
+      - jenkins-network
+
+  docker-dind:
+    image: docker:dind
+    privileged: true
+    container_name: docker-dind
+    volumes:
+      - C:/ProgramData/Jenkins/docker-data:/var/lib/docker
+    networks:
+      - jenkins-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - jenkins
+    networks:
+      - jenkins-network
+
+volumes:
+  jenkins_home:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:/ProgramData/Jenkins/.jenkins
+      o: bind
+  docker-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:/ProgramData/Jenkins/docker-data
+      o: bind
+
+networks:
+  jenkins-network:
+    driver: bridge 
