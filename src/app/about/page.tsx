@@ -64,9 +64,9 @@ export default function AboutSection() {
                         <Link href="/home" className="text-gray-300 hover:text-white transition-colors">
                             Home
                         </Link>
-                        <Link href="/features" className="text-gray-300 hover:text-white transition-colors">
+                        {/* <Link href="/features" className="text-gray-300 hover:text-white transition-colors">
                             Features
-                        </Link>
+                        </Link> */}
                         <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
                             About
                         </Link>
