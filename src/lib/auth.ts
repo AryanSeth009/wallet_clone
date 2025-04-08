@@ -74,7 +74,6 @@ export const authOptions: NextAuthOptions = {
           console.log('User found, checking password');
           console.log('User has password:', !!user.password, typeof user.password);
 
-          // Make sure password is a string and not null/undefined
           if (!user.password || typeof user.password !== 'string') {
             console.error('Password is not valid for comparison');
             throw new Error('Invalid email or password');
@@ -135,6 +134,13 @@ export const authOptions: NextAuthOptions = {
         (session.user as ExtendedUser).walletAddress = token.walletAddress as string;
       }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     }
   },
   secret: process.env.NEXTAUTH_SECRET,

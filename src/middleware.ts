@@ -19,26 +19,14 @@ export default withAuth(
       },
     },
     pages: {
-      signIn: '/home',  // Redirect to home when not authenticated
-      error: '/home'    // Also redirect to home on error
+      signIn: '/home',
+      error: '/home'
     },
   }
 );
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - login
-     * - signup
-     * - home
-     * - root path (/)
-     */
-    '/home',
     '/dashboard/:path*',
     '/settings/:path*',
     '/wallet/:path*',
