@@ -1,0 +1,14 @@
+workflow-aggregator
+git
+docker-workflow
+blueocean
+pipeline-utility-steps
+credentials-binding
+matrix-auth
+ssh-agent
+ssh-slaves
+docker-plugin
+docker-commons
+docker-java-api
+docker-build-step
+nodejs 

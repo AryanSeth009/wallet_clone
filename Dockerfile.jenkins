@@ -1,14 +1,50 @@
-FROM jenkins/jenkins:lts-jdk17
+FROM jenkins/jenkins:lts
 
 ENV JENKINS_USER admin
 ENV JENKINS_PASS admin
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
 USER root
-RUN apt-get update && apt-get install -y curl
 
+# Install required packages
+RUN apt-get update && \
+    apt-get -y install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common \
+    git \
+    unzip \
+    wget
+
+# Install Docker using the official convenience script
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
+    sh get-docker.sh && \
+    rm get-docker.sh
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
+# Install Docker Compose
+RUN curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose
+
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install
+
+# Switch back to jenkins user
 USER jenkins
 
-COPY security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy
+# Copy configuration files
+COPY security.groovy /usr/share/jenkins/ref/init.groovy.d/
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+
+# Install Jenkins plugins
+RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
 
 EXPOSE 8080
 EXPOSE 50000 

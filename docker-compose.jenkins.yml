@@ -1,61 +1,62 @@
-version: '3.8'
-
 services:
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    user: root
+  wallet-jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    container_name: wallet-jenkins
     ports:
-      - "8080:8080"
+      - "8082:8080"
       - "50000:50000"
     volumes:
-      - C:/ProgramData/Jenkins/.jenkins:/var/jenkins_home
-      - //var/run/docker.sock:/var/run/docker.sock
-      - //usr/bin/docker:/usr/bin/docker
+      - wallet_jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
       - JENKINS_ADMIN_ID=admin
-      - JENKINS_ADMIN_PASSWORD=password
+      - JENKINS_ADMIN_PASSWORD=admin
+      - DOCKER_HOST=unix:///var/run/docker.sock
     networks:
-      - jenkins-network
+      - wallet-jenkins-network
+    restart: unless-stopped
 
-  docker-dind:
+  wallet-docker-dind:
     image: docker:dind
     privileged: true
-    container_name: docker-dind
+    container_name: wallet-docker-dind
     volumes:
-      - C:/ProgramData/Jenkins/docker-data:/var/lib/docker
+      - wallet_docker_data:/var/lib/docker
     networks:
-      - jenkins-network
+      - wallet-jenkins-network
+    restart: unless-stopped
 
-  nginx:
+  wallet-nginx:
     image: nginx:alpine
-    container_name: nginx
+    container_name: wallet-nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/jenkins.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - jenkins
+      - wallet-jenkins
     networks:
-      - jenkins-network
+      - wallet-jenkins-network
+    restart: unless-stopped
 
 volumes:
-  jenkins_home:
+  wallet_jenkins_home:
     driver: local
     driver_opts:
       type: none
-      device: C:/ProgramData/Jenkins/.jenkins
+      device: /mnt/d/wallet_clone/wallet/jenkins_home
       o: bind
-  docker-data:
+  wallet_docker_data:
     driver: local
     driver_opts:
       type: none
-      device: C:/ProgramData/Jenkins/docker-data
+      device: /mnt/d/wallet_clone/wallet/docker-data
       o: bind
 
 networks:
-  jenkins-network:
+  wallet-jenkins-network:
     driver: bridge 
