@@ -34,8 +34,24 @@
     <jenkins.model.experimentalflags.UserExperimentalFlagsProperty>
       <flags/>
     </jenkins.model.experimentalflags.UserExperimentalFlagsProperty>
+    <com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty plugin="credentials@1413.va_51c53703df1">
+      <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash"/>
+    </com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty>
+    <hudson.tasks.Mailer_-UserProperty plugin="mailer@489.vd4b_25144138f"/>
+    <hudson.plugins.favorite.user.FavoriteUserProperty plugin="favorite@2.225.v68765b_b_a_1fa_3">
+      <data class="concurrent-hash-map"/>
+    </hudson.plugins.favorite.user.FavoriteUserProperty>
+    <org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty plugin="display-url-api@2.209.v582ed814ff2f">
+      <providerId>default</providerId>
+    </org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty>
     <hudson.security.HudsonPrivateSecurityRealm_-Details>
-      <passwordHash>#jbcrypt:$2a$10$0..s.iA.EABLPIOVvzL10eu1VMvhfXuo.0S9v3M0kSQHU0RMLibNS</passwordHash>
+      <passwordHash>#jbcrypt:$2a$10$sv.LcCbf9/FAilDdQ73Io.GY7pWyOK897nWjsCOFZwUnztggIDzJS</passwordHash>
     </hudson.security.HudsonPrivateSecurityRealm_-Details>
+    <jenkins.security.LastGrantedAuthoritiesProperty>
+      <roles>
+        <string>authenticated</string>
+      </roles>
+      <timestamp>1744354256043</timestamp>
+    </jenkins.security.LastGrantedAuthoritiesProperty>
   </properties>
 </user>

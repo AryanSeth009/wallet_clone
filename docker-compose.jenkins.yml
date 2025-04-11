@@ -9,7 +9,7 @@ services:
       - "50000:50000"
     volumes:
       - wallet_jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
+      - //var/run/docker.sock:/var/run/docker.sock
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
       - JENKINS_ADMIN_ID=admin
@@ -25,6 +25,8 @@ services:
     container_name: wallet-docker-dind
     volumes:
       - wallet_docker_data:/var/lib/docker
+    environment:
+      - DOCKER_TLS_CERTDIR=
     networks:
       - wallet-jenkins-network
     restart: unless-stopped
@@ -48,13 +50,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /mnt/d/wallet_clone/wallet/jenkins_home
+      device: D:/wallet_clone/wallet/jenkins_home
       o: bind
   wallet_docker_data:
     driver: local
     driver_opts:
       type: none
-      device: /mnt/d/wallet_clone/wallet/docker-data
+      device: D:/wallet_clone/wallet/docker-data
       o: bind
 
 networks:

@@ -40,3 +40,23 @@ next-env.d.ts
 .docker-data
 docker-compose.override.yml
 
+# Jenkins data
+jenkins_home/*
+!jenkins_home/.gitkeep
+
+# Docker data
+docker-data/*
+!docker-data/.gitkeep
+
+# Logs
+*.log
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+
