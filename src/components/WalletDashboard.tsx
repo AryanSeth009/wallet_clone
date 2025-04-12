@@ -4,25 +4,12 @@ import { format } from "date-fns";
 import {
   WalletIcon,
   PlusIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
-  ArrowsRightLeftIcon,
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
-import SendModal from "./SendModal";
 import ImportWalletModal from "./ImportWalletModal";
 import { ethers } from "ethers";
-
-interface Transaction {
-  hash: string;
-  type: 'send' | 'receive';
-  amount: string;
-  to: string;
-  from: string;
-  date: Date;
-  timestamp?: number;
-  status: 'pending' | 'confirmed' | 'failed';
-}
+import SendTransaction from "./SendTransaction";
+import TransactionHistory from "./TransactionHistory";
 
 export default function WalletDashboard() {
   const {
@@ -34,17 +21,18 @@ export default function WalletDashboard() {
     createWallet,
   } = useWalletStore();
 
-  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
   const [isImportWalletModalOpen, setIsImportWalletModalOpen] = useState(false);
-  const [transactionFilter, setTransactionFilter] = useState("all");
+  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
 
   // Current selected wallet or first wallet
-  const currentWallet =
-    wallets.find((w) => w.id === selectedWallet) || wallets[0];
-  const balance = currentWallet?.balance || "0";
+  const currentWallet = wallets.find((w) => w.id === selectedWallet) || wallets[0];
 
-  // Filtered transactions - Mock data for now
-  const filteredTransactions: Transaction[] = []; // Replace with actual transaction data
+  useEffect(() => {
+    if (window.ethereum) {
+      const web3Provider = new ethers.BrowserProvider(window.ethereum);
+      setProvider(web3Provider);
+    }
+  }, []);
 
   // Copy wallet address to clipboard
   const copyAddressToClipboard = () => {
@@ -65,6 +53,22 @@ export default function WalletDashboard() {
       console.error("Error generating new wallet:", error);
     }
   };
+
+  if (!currentWallet) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br pt-24 text-white p-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-xl mb-4">No wallet found</p>
+          <button
+            onClick={generateNewWallet}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+          >
+            Create New Wallet
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br pt-24 text-white p-6">
@@ -123,94 +127,27 @@ export default function WalletDashboard() {
             </button>
           </div>
           <div className="space-y-2">
-            <p className="text-4xl font-bold text-white">{balance} ETH</p>
-          </div>
-
-          {/* Quick Action Buttons */}
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            <button
-              onClick={() => setIsSendModalOpen(true)}
-              className="flex flex-col items-center justify-center bg-purple-600/10 hover:bg-purple-600/20 p-4 rounded-xl transition"
-            >
-              <ArrowUpIcon className="w-6 h-6 text-purple-400 mb-2" />
-              <span className="text-sm">Send</span>
-            </button>
-            {/* <button className="flex flex-col items-center justify-center bg-green-600/10 hover:bg-green-600/20 p-4 rounded-xl transition">
-              <ArrowDownIcon className="w-6 h-6 text-green-400 mb-2" />
-              <span className="text-sm">Receive</span>
-            </button> */}
-            <button className="flex flex-col items-center justify-center bg-blue-600/10 hover:bg-blue-600/20 p-4 rounded-xl transition">
-              <ArrowsRightLeftIcon className="w-6 h-6 text-blue-400 mb-2" />
-              <span className="text-sm">Swap</span>
-            </button>
+            <p className="text-4xl font-bold text-white">{currentWallet.balance || "0"} ETH</p>
           </div>
         </div>
+
+        {/* Send Transaction */}
+        {provider && currentWallet?.address && (
+          <div className="bg-[#1a1a2e] border border-purple-900/30 rounded-2xl p-6">
+            <SendTransaction 
+              provider={provider}
+              address={currentWallet.address}
+            />
+          </div>
+        )}
 
         {/* Transaction History */}
         <div className="bg-[#1a1a2e] border border-purple-900/30 rounded-2xl p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-semibold text-purple-300">
-              Transaction History
-            </h3>
-            <div className="flex space-x-2">
-              {["all", "send", "receive"].map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setTransactionFilter(filter)}
-                  className={`px-3 py-1 rounded-lg text-sm capitalize transition ${
-                    transactionFilter === filter
-                      ? "bg-purple-600 text-white"
-                      : "bg-[#2a2a3e] text-gray-400 hover:bg-purple-600/20"
-                  }`}
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Transactions List */}
-          <div className="space-y-4">
-            {filteredTransactions.length > 0 ? (
-              filteredTransactions.map((tx) => (
-                <div
-                  key={tx.hash}
-                  className="flex items-center justify-between bg-[#2a2a3e] p-4 rounded-lg hover:bg-[#3a3a4e] transition"
-                >
-                  <div className="flex items-center space-x-4">
-                    {tx.type === "send" ? (
-                      <ArrowUpIcon className="w-6 h-6 text-red-500" />
-                    ) : (
-                      <ArrowDownIcon className="w-6 h-6 text-green-500" />
-                    )}
-                    <div>
-                      <p className="text-white capitalize">
-                        {tx.type} Transaction
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        {format(tx.timestamp ? new Date(tx.timestamp) : tx.date, "MMM dd, yyyy HH:mm")}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-lg font-medium">
-                      {tx.type === "send" ? "-" : "+"}
-                      {tx.amount} ETH
-                    </p>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center text-gray-500 py-8">
-                No transactions found
-              </div>
-            )}
-          </div>
+          <TransactionHistory address={currentWallet.address} />
         </div>
       </div>
 
-      {/* Modals */}
-     
+      {/* Import Wallet Modal */}
       <ImportWalletModal
         isOpen={isImportWalletModalOpen}
         onClose={() => setIsImportWalletModalOpen(false)}

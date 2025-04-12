@@ -1,241 +1,108 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useWalletStore } from '@/store/walletStore';
-import { QRCodeSVG } from 'qrcode.react';
-import QrScanner from 'react-qr-scanner';
+import React, { useState } from 'react';
+import { ethers } from 'ethers';
+import { toast } from 'react-hot-toast';
 
-export default function SendTransaction() {
-  const [to, setTo] = useState('');
-  const [amount, setAmount] = useState('');
-  const [password, setPassword] = useState('');
-  const [showQRScanner, setShowQRScanner] = useState(false);
-  const [showQRCode, setShowQRCode] = useState(false);
-  const [estimatedGas, setEstimatedGas] = useState<string | null>(null);
+interface SendTransactionProps {
+  provider: ethers.BrowserProvider;
+  address: string;
+}
 
-  const {
-    wallets,
-    selectedWallet,
-    selectWallet,
-    sendTokens,
-    estimateTransactionGas,
-    isLoading,
-    error,
-    createWallet,
-  } = useWalletStore();
+export default function SendTransaction({ provider, address }: SendTransactionProps) {
+  const [recipientAddress, setRecipientAddress] = useState('');
+  const [amount, setAmount] = useState('0.1');
+  const [isSending, setIsSending] = useState(false);
 
-  const currentWallet = wallets.find(w => w.id === selectedWallet) || null;
+  const handleSendTransaction = async () => {
+    if (!recipientAddress || !amount) {
+      toast.error('Please fill in all fields');
+      return;
+    }
 
-  useEffect(() => {
-    console.log('Current wallets:', wallets);
-    console.log('Selected wallet:', selectedWallet);
-    console.log('Current wallet:', currentWallet);
-  }, [wallets, selectedWallet, currentWallet]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!to || !amount || !currentWallet || !password) return;
-    
     try {
-      await sendTokens(currentWallet.id, password, to, amount);
-      setTo('');
-      setAmount('');
-      setPassword('');
-      alert('Transaction sent successfully!');
+      setIsSending(true);
+      
+      // Get the signer
+      const signer = await provider.getSigner();
+      
+      // Convert amount to wei
+      const amountInWei = ethers.parseEther(amount);
+      
+      // Send transaction
+      const tx = await signer.sendTransaction({
+        to: recipientAddress,
+        value: amountInWei
+      });
+      
+      // Wait for transaction to be mined
+      await tx.wait();
+      
+      toast.success(`Transaction sent! Hash: ${tx.hash}`);
+      
+      // Clear form
+      setRecipientAddress('');
+      setAmount('0.1');
     } catch (error) {
-      console.error('Transaction failed:', error);
-      alert('Transaction failed. Please try again.');
+      console.error('Error sending transaction:', error);
+      toast.error('Failed to send transaction');
+    } finally {
+      setIsSending(false);
     }
   };
-
-  const handleScan = (data: string | null) => {
-    if (data) {
-      const address = data.toLowerCase();
-      if (address.startsWith('0x') && address.length === 42) {
-        setTo(address);
-        setShowQRScanner(false);
-      }
-    }
-  };
-
-  const handleError = (err: Error) => {
-    console.error(err);
-    alert('Error scanning QR code. Please try again.');
-    setShowQRScanner(false);
-  };
-
-  const handleAmountChange = async (value: string) => {
-    setAmount(value);
-    if (value && to && currentWallet) {
-      try {
-        const gas = await estimateTransactionGas(currentWallet.address, to, value);
-        setEstimatedGas(gas);
-      } catch (error) {
-        console.error('Error estimating gas:', error);
-        setEstimatedGas(null);
-      }
-    }
-  };
-
-  if (wallets.length === 0) {
-    return (
-      <div className="p-6 text-center">
-        <p className="text-gray-600 mb-4">No wallets found. Create a wallet to make transactions.</p>
-        <button
-          onClick={() => createWallet('My Wallet', 'password')}
-          disabled={isLoading}
-          className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-300"
-        >
-          {isLoading ? 'Creating Wallet...' : 'Create New Wallet'}
-        </button>
-      </div>
-    );
-  }
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Send Transaction</h2>
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-purple-300">Send Transaction</h2>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Wallet Selection */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Select Wallet
-          </label>
-          <select
-            value={selectedWallet || ''}
-            onChange={(e) => selectWallet(e.target.value)}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          >
-            {wallets.map((wallet) => (
-              <option key={wallet.id} value={wallet.id}>
-                {wallet.address.substring(0, 6)}...{wallet.address.substring(38)} ({wallet.balance} ETH)
-              </option>
-            ))}
-          </select>
-        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-400 mb-1">
+          From Address
+        </label>
+        <input
+          type="text"
+          value={address}
+          readOnly
+          className="w-full px-4 py-2 bg-[#2a2a3e] text-gray-400 rounded-lg"
+        />
+      </div>
 
-        {/* From Address Display */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            From Address
-          </label>
-          <div className="text-sm text-gray-600 bg-gray-100 p-2 rounded break-all">
-            {currentWallet?.address || 'No wallet selected'}
-          </div>
-          <div className="text-sm text-gray-600 mt-1">
-            Balance: {currentWallet?.balance || '0'} ETH
-          </div>
-        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-400 mb-1">
+          To Address
+        </label>
+        <input
+          type="text"
+          value={recipientAddress}
+          onChange={(e) => setRecipientAddress(e.target.value)}
+          placeholder="Enter recipient address"
+          className="w-full px-4 py-2 bg-[#2a2a3e] text-white rounded-lg"
+        />
+      </div>
 
-        {/* Recipient Address */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Recipient Address
-          </label>
-          <div className="flex space-x-2">
-            <input
-              type="text"
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
-              className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              placeholder="0x..."
-            />
-            <button
-              type="button"
-              onClick={() => setShowQRScanner(!showQRScanner)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Scan QR
-            </button>
-          </div>
-        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-400 mb-1">
+          Amount (ETH)
+        </label>
+        <input
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          className="w-full px-4 py-2 bg-[#2a2a3e] text-white rounded-lg"
+        />
+      </div>
 
-        {showQRScanner && (
-          <div className="mt-4">
-            <QrScanner
-              delay={300}
-              onError={handleError}
-              onScan={handleScan}
-              style={{ width: '100%' }}
-            />
-          </div>
-        )}
-
-        {/* Amount Input */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Amount (ETH)
-          </label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => handleAmountChange(e.target.value)}
-            step="0.000000000000000001"
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            placeholder="0.0"
-          />
-          {estimatedGas && (
-            <div className="text-sm text-gray-600 mt-1">
-              Estimated Gas: {estimatedGas} gwei
-            </div>
-          )}
-        </div>
-
-        {/* Password Input */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          />
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex justify-between items-center">
-          <button
-            type="submit"
-            className="w-2/3 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-300"
-            disabled={!to || !amount || isLoading || !currentWallet || !password}
-          >
-            {isLoading ? 'Sending...' : 'Send Transaction'}
-          </button>
-          
-          <button
-            type="button"
-            onClick={() => setShowQRCode(!showQRCode)}
-            className="w-1/4 bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition-colors"
-          >
-            {showQRCode ? 'Hide QR' : 'Show QR'}
-          </button>
-        </div>
-      </form>
-
-      {/* QR Code Display */}
-      {showQRCode && currentWallet && (
-        <div className="mt-6 text-center">
-          <p className="text-sm font-medium text-gray-700 mb-2">Your Wallet QR Code</p>
-          <div className="inline-block p-4 bg-white rounded-lg shadow-md">
-            <QRCodeSVG
-              value={currentWallet.address}
-              size={200}
-              level="H"
-              includeMargin={true}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Error Display */}
-      {error && (
-        <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
-          {error}
-        </div>
-      )}
+      <button
+        onClick={handleSendTransaction}
+        disabled={isSending}
+        className={`w-full px-4 py-2 rounded-lg ${
+          isSending
+            ? 'bg-gray-600 cursor-not-allowed'
+            : 'bg-green-600 hover:bg-green-700'
+        } text-white`}
+      >
+        {isSending ? 'Sending...' : 'Send Transaction'}
+      </button>
     </div>
   );
 }
