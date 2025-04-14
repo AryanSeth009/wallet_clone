@@ -4,10 +4,17 @@ import { useState } from 'react';
 import { testWalletConnection, testSendTransaction, testTransactionHistory } from '@/utils/testWallet';
 import { toast } from 'react-hot-toast';
 
+// Define the type for test results
+interface TestResults {
+  connection?: any;
+  send?: any;
+  history?: any;
+}
+
 export default function TestPage() {
   const [testAddress, setTestAddress] = useState('');
   const [testAmount, setTestAmount] = useState('0.001');
-  const [testResults, setTestResults] = useState<any>(null);
+  const [testResults, setTestResults] = useState<TestResults | null>(null);
 
   const runConnectionTest = async () => {
     const result = await testWalletConnection();
@@ -25,7 +32,7 @@ export default function TestPage() {
       return;
     }
     const result = await testSendTransaction(testAddress, testAmount);
-    setTestResults(prev => ({ ...prev, send: result }));
+    setTestResults((prev: TestResults | null) => ({ ...prev, send: result }));
     if (result.success) {
       toast.success('Transaction sent successfully!');
     } else {
@@ -39,7 +46,7 @@ export default function TestPage() {
       return;
     }
     const result = await testTransactionHistory(testAddress);
-    setTestResults(prev => ({ ...prev, history: result }));
+    setTestResults((prev: TestResults | null) => ({ ...prev, history: result }));
     if (result.success) {
       toast.success('Transaction history fetched successfully!');
     } else {

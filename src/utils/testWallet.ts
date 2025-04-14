@@ -24,7 +24,7 @@ export async function testWalletConnection() {
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error instanceof Error ? error.message : 'An unknown error occurred'
     };
   }
 }
@@ -46,7 +46,7 @@ export async function testSendTransaction(recipient: string, amount: string) {
     
     // Get gas price
     const feeData = await provider.getFeeData();
-    const gasCost = gasEstimate * (feeData.gasPrice || 0n);
+    const gasCost = gasEstimate * (feeData.gasPrice || BigInt(0));
     
     // Send transaction
     const tx = await signer.sendTransaction({
@@ -62,7 +62,7 @@ export async function testSendTransaction(recipient: string, amount: string) {
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error instanceof Error ? error.message : 'An unknown error occurred'
     };
   }
 }
@@ -86,7 +86,7 @@ export async function testTransactionHistory(address: string) {
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error instanceof Error ? error.message : 'An unknown error occurred'
     };
   }
 } 

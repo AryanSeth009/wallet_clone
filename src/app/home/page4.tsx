@@ -1,3 +1,5 @@
+import NewsletterForm from '@/components/NewsletterForm';
+
 export default function Footer() {
     return (
       <div className="min-h-screen pt-4 bg-[#0A0B0F] text-white relative overflow-hidden">
@@ -41,16 +43,7 @@ export default function Footer() {
           {/* Subscription Section */}
           <div className="text-center max-w-xl mx-auto py-14">
             <h2 className="text-6xl w-full font-bold mb-4">Stay updated with market insights</h2>
-            <div className="relative mb-2">
-              <input 
-                type="email" 
-                placeholder="Email Address" 
-                className="w-full px-4 py-3 bg-gray-900/50 border  border-gray-800 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
-              />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2">
-                <ArrowRightIcon className="w-5 h-5 text-purple-500" />
-              </button>
-            </div>
+            <NewsletterForm className="mb-2" />
             <p className="text-sm text-gray-500">
               Unsubscribe at any time. <a href="#" className="text-purple-400 hover:text-purple-300">Privacy policy →</a>
             </p>
@@ -87,17 +80,8 @@ export default function Footer() {
               <p className="text-sm text-gray-400 mb-6">
                 Subscribe to receive updates on new features, security enhancements, and market insights.
               </p>
-              <div className="relative mb-2">
-                <input 
-                  type="email" 
-                  placeholder="Email Address" 
-                  className="w-full px-4 py-3 bg-gray-900/50 border border-gray-800 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
-                />
-                <button className="absolute right-2 top-1/2 -translate-y-1/2">
-                  <ArrowRightIcon className="w-5 h-5 text-purple-500" />
-                </button>
-              </div>
-              <p className="text-xs text-gray-500">© 2021-2024 Secure Crypto Wallet. All rights reserved.</p>
+              <NewsletterForm />
+              <p className="text-xs text-gray-500 mt-4">© 2021-2024 Secure Crypto Wallet. All rights reserved.</p>
             </div>
           </footer>
         </div>
