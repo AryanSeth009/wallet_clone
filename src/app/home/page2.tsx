@@ -5,7 +5,7 @@ export default function CryptoLanding() {
     <div id='features' className="features min-h-screen bg-[#0A0B0F] text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a3a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a3a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"
+        className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a3a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a3a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10"
       />
 
       {/* Decorative Elements */}
@@ -17,44 +17,42 @@ export default function CryptoLanding() {
         {/* Hero Section */}
         <div className="text-center py-20">
           <h1 className="text-[80px] pt-16 md:text-7xl leading-tight font-bold mb-6">
-            A crypto mining platform that{' '}
+            Your Secure{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
-              invest in you
+              Crypto Wallet
             </span>
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto mb-8 text-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempus Lorem ipsum dolor
+            Store, trade, and manage your cryptocurrencies with advanced security features and real-time market data
           </p>
-
         </div>
-        <a href="/signup "
- className='px-6 flex items-center justify-center '>
-          <button  className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 transition-all duration-200 text-sm font-medium">
-            Get Started
+        <a href="/signup" className='px-6 flex items-center justify-center'>
+          <button className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 transition-all duration-200 text-sm font-medium">
+            Create Wallet
           </button>
         </a>
         {/* Feature Cards */}
         <div className="grid pt-10 grid-cols-1 md:grid-cols-3 gap-6 pb-20">
           <FeatureCard
             icon={<ArrowsIcon />}
-            title="Create"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempus Lorem ipsum dolor"
-            cta="Get Started"
-            href="#"
+            title="Quick Trade"
+            description="Swap cryptocurrencies instantly with real-time rates and minimal fees. Support for multiple tokens including BTC, ETH, USDT, and more."
+            cta="Start Trading"
+            href="/dashboard"
           />
           <FeatureCard
             icon={<WalletIcon />}
-            title="Login"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempus Lorem ipsum dolor"
-            cta="Find an ATM"
-            href="#"
+            title="Secure Storage"
+            description="Your assets are protected with industry-leading security measures, including multi-signature support and encrypted private keys."
+            cta="Learn More"
+            href="/security"
           />
           <FeatureCard
             icon={<ChartIcon />}
-            title="Manage"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempus Lorem ipsum dolor"
-            cta="Download the App"
-            href="#"
+            title="Portfolio Tracking"
+            description="Monitor your investments with real-time price updates, transaction history, and detailed analytics for informed decision-making."
+            cta="View Dashboard"
+            href="/dashboard"
           />
         </div>
       </div>
@@ -76,7 +74,7 @@ function FeatureCard({
   href: string
 }) {
   return (
-    <div className="bg-gray-900/80 rounded-2xl p-6 border border-gray-800">
+    <div className="bg-gray-900/80 rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-colors duration-300">
       <div className="w-10 h-10 rounded-full bg-purple-600/20 flex items-center justify-center mb-4">
         {icon}
       </div>
