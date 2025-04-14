@@ -14,13 +14,13 @@ export default function Footer() {
           <div className="grid relative lg:grid-cols-2 gap-12 items-center pt-20 pb-24">
             <div>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                Take your first step into safe, secure crypto investing
+                Your secure gateway to the world of cryptocurrency
               </h1>
               <p className="text-gray-400 mb-8 max-w-lg">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempus Lorem ipsum dolor at amet, consectetur adipiscing elit, sed do eiusmod tempus
+                Store, trade, and manage your digital assets with our advanced wallet platform featuring multi-signature security, real-time market data, and seamless transactions
               </p>
               <button onClick={() => window.location.href = '/signup'} className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 transition-all duration-200 text-sm font-medium">
-                Get Started
+                Create Your Wallet
               </button>
             </div>
             
@@ -40,7 +40,7 @@ export default function Footer() {
   
           {/* Subscription Section */}
           <div className="text-center max-w-xl mx-auto py-14">
-            <h2 className="text-6xl w-full font-bold mb-4">Receive transmissions</h2>
+            <h2 className="text-6xl w-full font-bold mb-4">Stay updated with market insights</h2>
             <div className="relative mb-2">
               <input 
                 type="email" 
@@ -59,33 +59,33 @@ export default function Footer() {
           {/* Footer */}
           <footer className="grid md:grid-cols-4 gap-8 py-20 border-t border-gray-800">
             <div>
-              <h3 className="font-bold mb-4">Company</h3>
+              <h3 className="font-bold mb-4">Wallet</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Home</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">About</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Benefits</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Contact Us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Media</a></li>
+                <li><a href="/dashboard" className="text-gray-400 hover:text-white text-sm">Dashboard</a></li>
+                <li><a href="/transactions" className="text-gray-400 hover:text-white text-sm">Transactions</a></li>
+                <li><a href="/profile" className="text-gray-400 hover:text-white text-sm">Profile</a></li>
+                <li><a href="/settings" className="text-gray-400 hover:text-white text-sm">Settings</a></li>
+                <li><a href="/security" className="text-gray-400 hover:text-white text-sm">Security</a></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-bold mb-4">Privacy Policy and Terms of Service</h3>
+              <h3 className="font-bold mb-4">Legal & Security</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">CoinFlip Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">CoinFlip Business Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">CoinFlip Financial Privacy Notice</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">CoinFlip Terms of Service</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">CoinFlip Trade Desk Terms of Service</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Security Measures</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Compliance</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Disclaimers</a></li>
               </ul>
             </div>
   
             <div className="md:col-span-2">
               <p className="text-sm text-gray-400 mb-6">
-                CoinFlip, the world's leading Bitcoin ATM operator. Enable a fair, global, and open financial system.
+                Our secure crypto wallet platform provides you with the tools to manage your digital assets with confidence. Built with advanced security features and real-time market data.
               </p>
               <p className="text-sm text-gray-400 mb-6">
-                Sign up to get the latest in CoinFlip news, discounts, and more.
+                Subscribe to receive updates on new features, security enhancements, and market insights.
               </p>
               <div className="relative mb-2">
                 <input 
@@ -97,7 +97,7 @@ export default function Footer() {
                   <ArrowRightIcon className="w-5 h-5 text-purple-500" />
                 </button>
               </div>
-              <p className="text-xs text-gray-500">© 2021-2024 CoinFlip. USD COIN (USDC)</p>
+              <p className="text-xs text-gray-500">© 2021-2024 Secure Crypto Wallet. All rights reserved.</p>
             </div>
           </footer>
         </div>

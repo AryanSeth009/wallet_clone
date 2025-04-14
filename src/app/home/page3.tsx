@@ -29,14 +29,14 @@ export default function CryptoTrading() {
 
           <div className="flex-1">
             <h2 className="text-6xl leading-tight font-bold w-[500px] mb-4">
-              24/7 access to full service customer support
+              Advanced security with multi-signature protection
             </h2>
             <p className="text-gray-400 mb-6 max-w-xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempus Lorem ipsum dolor at non consectetur
+              Your crypto assets are protected by industry-leading security measures including encrypted private keys, biometric authentication, and real-time fraud detection
             </p>
             <button onClick={() => window.location.href = '/signup'} className="px-6 py-2 hover:bg-gradient-to-br border-white bg-transparent border border-to-r from-[#8A2BE2] to-[#00BFFF] rounded-full text-sm font-medium hover:opacity-90 hover:
              transition-all duration-200">
-              Get Started
+              Secure Your Assets
             </button>
           </div>
         </div>
@@ -44,13 +44,13 @@ export default function CryptoTrading() {
         {/* Trading Section */}
         <div className="mb-12 flex justify-center flex-col items-center">
           <h2 className="text-6xl leading-tight flex justify-center text-center  font-bold mb-4">
-            Buy and sell with the lowest<br />fees in the industry
+            Trade with confidence using<br />our secure wallet platform
           </h2>
           <p className="text-gray-400 mb-4  text-center max-w-xl">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempus
+            Execute trades instantly with real-time market data, low fees, and comprehensive transaction history
           </p>
-          <a href="#" className="text-[#8A2BE2] hover:text-[#00BFFF] transition-colors duration-200 text-sm inline-flex items-center">
-            Learn More
+          <a href="/dashboard" className="text-[#8A2BE2] hover:text-[#00BFFF] transition-colors duration-200 text-sm inline-flex items-center">
+            Start Trading
             <ArrowRight className="ml-2 w-4 h-4" />
           </a>
         </div>
@@ -76,36 +76,36 @@ export default function CryptoTrading() {
             image="/crypto-icons/eth.svg"
           />
           <CryptoRow 
-            symbol="ADA" 
-            name="0KB" 
-            price="1.48" 
-            change="+3.43%" 
+            symbol="USDT" 
+            name="Tether" 
+            price="1.00" 
+            change="+0.01%" 
             chartData={[25, 30, 35, 25, 30, 35]} 
             isPositive={true}
             image="/crypto-icons/okb.svg"
           />
           <CryptoRow 
-            symbol="SHARD" 
-            name="Shard" 
-            price="0.97" 
+            symbol="BNB" 
+            name="Binance Coin" 
+            price="245.80" 
             change="-0.82%" 
             chartData={[40, 35, 30, 25, 20, 15]} 
             isPositive={false}
             image="/crypto-icons/shard.svg"
           />
           <CryptoRow 
-            symbol="TRON" 
+            symbol="TRX" 
             name="Tron" 
-            price="42.22" 
+            price="0.084" 
             change="+2.96%" 
             chartData={[25, 35, 30, 40, 35, 45]} 
             isPositive={true}
             image="/crypto-icons/tron.svg"
           />
            <CryptoRow 
-            symbol="AVG" 
-            name="AVG" 
-            price="4,234.01" 
+            symbol="AVAX" 
+            name="Avalanche" 
+            price="9.44" 
             change="+4.56%" 
             chartData={[20, 35, 30, 45, 40, 50]} 
             isPositive={true}
