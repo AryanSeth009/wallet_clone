@@ -23,23 +23,20 @@ export function useSidebar() {
   }
   return context;
 }
-
+  
 export const sidebarLinks = [
   {
     name: 'Wallet',
     href: '/wallet',
     icon: WalletIcon,
   },
-  {
-    name: 'Transfer',
-    href: '/transfer',
-    icon: ArrowsRightLeftIcon,
-  },
-  {
-    name: 'Stocks',
-    href: '/stocks',
-    icon: ChartBarIcon,
-  },
+ 
+   
+    {
+      name: 'Transactions',
+      href: '/transactions',
+      icon: ArrowsRightLeftIcon,
+    },
 ];
 
 export const SidebarProvider = ({ children }: { children: React.ReactNode }) => {

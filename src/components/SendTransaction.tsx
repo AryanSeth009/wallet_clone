@@ -63,7 +63,7 @@ export default function SendTransaction({ provider, address }: SendTransactionPr
           type="text"
           value={address}
           readOnly
-          className="w-full px-4 py-2 bg-[#2a2a3e] text-gray-400 rounded-lg"
+          className="w-full px-4 py-2 bg-[#2a2a3e] text-gray-400 !rounded-xl"
         />
       </div>
 
@@ -76,7 +76,7 @@ export default function SendTransaction({ provider, address }: SendTransactionPr
           value={recipientAddress}
           onChange={(e) => setRecipientAddress(e.target.value)}
           placeholder="Enter recipient address"
-          className="w-full px-4 py-2 bg-[#2a2a3e] text-white rounded-lg"
+          className="w-full px-4 py-2 bg-[#2a2a3e] text-white rounded-xl"
         />
       </div>
 
@@ -88,14 +88,14 @@ export default function SendTransaction({ provider, address }: SendTransactionPr
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full px-4 py-2 bg-[#2a2a3e] text-white rounded-lg"
+          className="w-full px-4 py-2 bg-[#2a2a3e] text-white rounded-xl"
         />
       </div>
 
       <button
         onClick={handleSendTransaction}
         disabled={isSending}
-        className={`w-full px-4 py-2 rounded-lg ${
+        className={`w-full px-4 py-2 rounded-xl ${
           isSending
             ? 'bg-gray-600 cursor-not-allowed'
             : 'bg-green-600 hover:bg-green-700'

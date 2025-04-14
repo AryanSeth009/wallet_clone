@@ -10,5 +10,13 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+  // Ensure dark theme is always used
+  const themeProps = {
+    ...props,
+    defaultTheme: "dark",
+    forcedTheme: "dark",
+    enableSystem: false,
+  };
+  
+  return <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
 }

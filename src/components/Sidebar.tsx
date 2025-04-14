@@ -14,12 +14,16 @@ import {
   UserIcon,
   NewspaperIcon
 } from '@heroicons/react/24/outline';
+import { useThemeContext } from '@/context/ThemeContext';
 
 const sidebarItems = [
   { label: 'Dashboard', icon: Squares2X2Icon, href: '/dashboard' },
   { label: 'Wallet', icon: WalletIcon, href: '/wallet' },
+  { label: 'Transactions', icon: ArrowsRightLeftIcon, href: '/transactions' },
+
   // { label: 'Marketplace', icon: ShoppingBagIcon, href: '/marketplace' },
   { label: 'Profile', icon: UserIcon, href: '/profile' },
+  
 ];
 
 export default function Sidebar() {
@@ -27,14 +31,16 @@ export default function Sidebar() {
   const [searchQuery, setSearchQuery] = useState('');
   const user = null; // assuming user is not defined in this context
   const loading = false; // assuming loading is not defined in this context
+  const { theme } = useThemeContext();
 
   useEffect(() => {
     console.log('Sidebar Mounted:', {
       pathname,
       user: user ? 'User exists' : 'No user',
-      loading
+      loading,
+      theme
     });
-  }, [pathname, user, loading]);
+  }, [pathname, user, loading, theme]);
 
   return (
     <div className="h-full pt-12 p-6 border-top flex flex-col bg-[#0B0B10] text-white">
@@ -73,9 +79,6 @@ export default function Sidebar() {
           })}
         </ul>
       </nav>
-
-      {/* Weather Widget */}
-     
     </div>
   );
 }

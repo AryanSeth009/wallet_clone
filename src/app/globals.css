@@ -2,80 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-  --background-dark: #0A0B0F;
-  --background-card: #13141B;
-  --background-element: #1A1B23;
-  --accent-purple: #8A2BE2;
-  --accent-blue: #00BFFF;
-  --accent-green: #00FA9A;
+  /* Dark theme variables */
+  --background-primary: #0A0B0F;
+  --background-secondary: #0F1229;
+  --background-tertiary: #1A1A2E;
   --text-primary: #FFFFFF;
-  --text-secondary: #A0AEC0;
-  --border-color: rgba(255, 255, 255, 0.1);
-
-  /* Tailwind CSS Variables for Dark Mode */
-  --background: 222 47% 11%;       /* Dark background */
-  --foreground: 210 40% 98%;        /* Light text */
-  --card: 222 47% 11%;              /* Dark card background */
-  --card-foreground: 210 40% 98%;   /* Card text */
-  --popover: 222 47% 11%;           /* Dark popover background */
-  --popover-foreground: 210 40% 98%; /* Popover text */
-  --primary: 263 70% 50%;           /* Primary accent color */
-  --primary-foreground: 210 40% 98%; /* Primary text */
-  --secondary: 222 47% 16%;         /* Secondary background */
-  --secondary-foreground: 210 40% 98%; /* Secondary text */
-  --muted: 223 47% 20%;             /* Muted background */
-  --muted-foreground: 215 20% 65%;  /* Muted text */
-  --accent: 263 70% 50%;            /* Accent color */
-  --accent-foreground: 210 40% 98%; /* Accent text */
-  --destructive: 0 84% 60%;         /* Destructive color */
-  --destructive-foreground: 210 40% 98%; /* Destructive text */
-  --border: 222 47% 20%;            /* Border color */
-  --input: 222 47% 20%;             /* Input background */
-  --ring: 263 70% 50%;              /* Focus ring color */
-}
-
-.dark {
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
-  /* Add more dark mode specific overrides if needed */
-}
-*{
-  font-family:  Georgia, 'Times New Roman', Times, serif ;
-}
-body {
-  @apply bg-background text-foreground;
-  font-family: sans-serif;
-  background-image: url('/sm1.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* Custom scrollbar for dark mode */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--secondary));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent));
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #94A3B8;
+  --accent-primary: #8A2BE2;
+  --accent-secondary: #9F7AEA;
+  --accent-tertiary: #B794F4;
+  --border-color: #334155;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --card-bg: #1A1A2E;
+  --card-border: #334155;
+  --input-bg: #0F1229;
+  --input-border: #334155;
+  --input-focus: #8A2BE2;
+  --button-primary: #8A2BE2;
+  --button-primary-hover: #9F7AEA;
+  --button-secondary: #334155;
+  --button-secondary-hover: #475569;
+  --button-text: #FFFFFF;
+  --button-text-secondary: #F8FAFC;
+  --font-poppins: 'Poppins', sans-serif;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    font-family: var(--font-poppins);
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[var(--background-primary)] text-[var(--text-primary)] transition-colors duration-200;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-tertiary);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-sm transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply hover:shadow-md hover:border-[var(--accent-primary)] hover:scale-[1.02];
+  }
+
+  .input {
+    @apply bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-4 py-2 text-[var(--text-primary)] 
+    focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)] focus:border-transparent transition-all duration-200;
+  }
+
+  .button-primary {
+    @apply bg-[var(--button-primary)] text-[var(--button-text)] px-4 py-2 rounded-lg font-medium
+    hover:bg-[var(--button-primary-hover)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .button-secondary {
+    @apply bg-[var(--button-secondary)] text-[var(--button-text-secondary)] px-4 py-2 rounded-lg font-medium
+    hover:bg-[var(--button-secondary-hover)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .nav-link {
+    @apply text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200;
+  }
+
+  .nav-link-active {
+    @apply text-[var(--accent-primary)] font-medium;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)];
+  }
+
+  .bg-gradient {
+    @apply bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)];
+  }
+
+  .border-gradient {
+    @apply border border-transparent bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-border;
   }
 }

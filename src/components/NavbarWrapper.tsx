@@ -13,7 +13,7 @@ export default function NavbarWrapper() {
     '/dashboard',
     '/wallet',
     '/marketplace',
-    
+    '/transactions',
     '/cards',
     '/transfer',
     '/profile'

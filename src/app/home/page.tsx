@@ -42,7 +42,7 @@ export default function Home() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/features" className="text-gray-300 hover:text-white transition-colors">
+            <Link href="#features" className="text-gray-300 hover:text-white transition-colors">
               Features
             </Link>
             <Link href="/about" className="text-gray-300 hover:text-white transition-colors">

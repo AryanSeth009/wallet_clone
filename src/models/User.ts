@@ -24,6 +24,30 @@ const UserSchema = new mongoose.Schema({
     required: false,
     trim: true
   },
+  // Additional profile fields
+  role: {
+    type: String,
+    default: 'User',
+    trim: true
+  },
+  country: {
+    type: String,
+    default: 'Not Specified',
+    trim: true
+  },
+  phoneNumber: {
+    type: String,
+    default: 'Not Available',
+    trim: true
+  },
+  profileImage: {
+    type: String,
+    default: null
+  },
+  image: {
+    type: String,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now

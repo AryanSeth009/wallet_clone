@@ -23,7 +23,8 @@ export default function ClientLayout({
     '/stocks',
     '/cards',
     '/transfer',
-    '/profile'
+    '/profile',
+    '/transactions'
   ];
 
   // Public routes that don't require authentication

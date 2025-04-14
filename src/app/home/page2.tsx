@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react'
 
 export default function CryptoLanding() {
   return (
-    <div className="min-h-screen bg-[#0A0B0F] text-white relative overflow-hidden">
+    <div id='features' className="features min-h-screen bg-[#0A0B0F] text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div
         className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a3a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a3a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"

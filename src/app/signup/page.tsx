@@ -77,10 +77,10 @@ const SignupPage = () => {
       </div>
 
       <div className="w-full max-w-md bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-8 rounded-2xl">
-        <div className="flex items-center gap-2 mb-8">
+        {/* <div className="flex items-center gap-2 mb-8">
           <div className="h-8 w-8 rounded bg-purple-600" />
           <span className="text-xl font-semibold text-white">BlockPouch</span>
-        </div>
+        </div> */}
 
         <h1 className="text-2xl font-bold text-white mb-2">Create an account</h1>
         <p className="text-gray-400 mb-6">Join us to explore the platform</p>
@@ -94,7 +94,7 @@ const SignupPage = () => {
               id="email"
               type="email"
               placeholder="Enter your email"
-              className="w-full h-12 px-3 py-2 bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full h-12 px-3 py-2 bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
@@ -111,7 +111,7 @@ const SignupPage = () => {
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
-                className="w-full h-12 px-3 py-2 bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 pr-10"
+                className="w-full h-12 px-3 py-2 bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600 pr-10"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
@@ -147,7 +147,7 @@ const SignupPage = () => {
                 id="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
                 placeholder="Confirm your password"
-                className="w-full h-12 px-3 py-2 bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 pr-10"
+                className="w-full h-12 px-3 py-2 bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600 pr-10"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 disabled={loading}

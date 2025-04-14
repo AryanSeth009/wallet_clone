@@ -35,10 +35,14 @@ export default function WalletPage() {
 
   return (
     <Suspense fallback={<LoadingFallback />}>
+      <div className="relative inset-0 pointer-events-none">
+        <div className="absolute -top-[30%] -right-[10%] w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#8A2BE2]/20 to-[#00BFFF]/20 blur-3xl" />
+        <div className="absolute -bottom-[40%] -left-[10%] w-[1000px] h-[1000px] rounded-full bg-gradient-to-r from-[#00BFFF]/10 to-[#8A2BE2]/10 blur-3xl" />
+      </div>
       <WalletProvider>
-        <div className="flex h-screen bg-gray-900">
+        <div className="flex h-fit bg-gray-900">
           <WalletSidebar />
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 h-fit overflow-auto">
             <WalletDashboard />
           </div>
         </div>

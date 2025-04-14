@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	darkMode: ['class'],
+	darkMode: 'class',
 	content: [
 		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,6 +8,9 @@ module.exports = {
 	],
 	theme: {
     	extend: {
+            fontFamily: {
+                poppins: ['var(--font-poppins)', 'sans-serif'],
+            },
     		keyframes: {
     			float: {
     				'0%, 100%': {

@@ -8,6 +8,7 @@ const nextConfig = {
       'www.newsbtc.com',
       'cryptopotato.com',
       'pbs.twimg.com',
+      'source.boringavatars.com',
     ],
     remotePatterns: [
       {

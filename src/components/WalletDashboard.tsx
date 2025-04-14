@@ -5,11 +5,12 @@ import {
   WalletIcon,
   PlusIcon,
   DocumentDuplicateIcon,
+  ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 import ImportWalletModal from "./ImportWalletModal";
 import { ethers } from "ethers";
 import SendTransaction from "./SendTransaction";
-import TransactionHistory from "./TransactionHistory";
+import TransactionMenu from "./TransactionMenu";
 
 export default function WalletDashboard() {
   const {
@@ -23,6 +24,7 @@ export default function WalletDashboard() {
 
   const [isImportWalletModalOpen, setIsImportWalletModalOpen] = useState(false);
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
+  const [isTransactionMenuOpen, setIsTransactionMenuOpen] = useState(false);
 
   // Current selected wallet or first wallet
   const currentWallet = wallets.find((w) => w.id === selectedWallet) || wallets[0];
@@ -105,6 +107,13 @@ export default function WalletDashboard() {
               >
                 <WalletIcon className="w-5 h-5 text-green-400" />
               </button>
+              <button
+                onClick={() => setIsTransactionMenuOpen(true)}
+                className="bg-blue-600/20 hover:bg-blue-600/40 p-2 rounded-full transition"
+                title="View Transactions"
+              >
+                <ArrowPathIcon className="w-5 h-5 text-blue-400" />
+              </button>
             </div>
           </div>
         </div>
@@ -140,17 +149,19 @@ export default function WalletDashboard() {
             />
           </div>
         )}
-
-        {/* Transaction History */}
-        <div className="bg-[#1a1a2e] border border-purple-900/30 rounded-2xl p-6">
-          <TransactionHistory address={currentWallet.address} />
-        </div>
       </div>
 
       {/* Import Wallet Modal */}
       <ImportWalletModal
         isOpen={isImportWalletModalOpen}
         onClose={() => setIsImportWalletModalOpen(false)}
+      />
+
+      {/* Transaction Menu */}
+      <TransactionMenu
+        address={currentWallet.address}
+        isOpen={isTransactionMenuOpen}
+        onClose={() => setIsTransactionMenuOpen(false)}
       />
     </div>
   );
